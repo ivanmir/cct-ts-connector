@@ -1,4 +1,4 @@
-package com.sap.gs.ctt.tsconnector;
+package com.sap.gs.cct.tsconnector;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +29,9 @@ public class AdminData {
 
 			logger.info("started");
 
+			String current = new java.io.File( "." ).getCanonicalPath();
+	        System.out.println("Current dir:"+current);
+	        
 			JCoDestination destination = JCoDestinationManager.getDestination("CoDeX_B7W");
 
 			JCoRepository repo = destination.getRepository();

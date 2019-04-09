@@ -1,4 +1,4 @@
-package com.sap.gs.ctt.tsconnector;
+package com.sap.gs.cct.tsconnector;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
