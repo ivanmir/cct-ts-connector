@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 
-@EnableAsync
 //for compatibility wit a SAP java tomcat
 @EnableAutoConfiguration(exclude = {WebMvcAutoConfiguration.class, GsonAutoConfiguration.class})
 public class Application extends SpringBootServletInitializer {
