@@ -8,3 +8,7 @@ cf_abap.war
 .settings/org.eclipse.jdt.core.prefs
 .settings/.jsdtscope
 target/
+/.settings/
+/.classpath
+/.project
+/bin/

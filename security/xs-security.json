@@ -1,4 +1,4 @@
 {
-	"xsappname": "cfabap",
-	"tenant-mode": "dedicated"
+	"xsappname": "codex",
+	"tenant-mode": "shared"
 }

@@ -1,9 +1,6 @@
 package com.sap.gs.cct.tsconnector;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,18 +17,18 @@ import com.sap.conn.jco.JCoTable;
 
 @RestController
 public class AdminData {
-	private Logger logger = LoggerFactory.getLogger(AdminData.class);
+	// private Logger logger = LoggerFactory.getLogger(AdminData.class);
 
 	@GetMapping(value = "assignments/{userId}", produces = "application/json; charset=UTF-8")
-	ResponseEntity<String> getAssignments(@PathVariable("userId") String userId) {
+	public String getAssignments(@PathVariable("userId") String userId) {
 
 		try {
 
-			logger.info("started");
+			// logger.info("started");
 
-			String current = new java.io.File( "." ).getCanonicalPath();
-	        System.out.println("Current dir:"+current);
-	        
+			String current = new java.io.File(".").getCanonicalPath();
+			System.out.println("Current dir:" + current);
+
 			JCoDestination destination = JCoDestinationManager.getDestination("CoDeX_B7W");
 
 			JCoRepository repo = destination.getRepository();
@@ -56,22 +53,22 @@ public class AdminData {
 			JCoParameterList klausExports = adminGet.getExportParameterList();
 			JCoTable tab = klausExports.getTable("T_ADMIN_DATA");
 
-			return new ResponseEntity<>(tab.toJSON(), HttpStatus.OK);
+			return tab.toJSON();
 
 		} catch (AbapException abapException) {
 
-			logger.error("abap exception", abapException);
+			// logger.error("abap exception", abapException);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, abapException.getMessageText(),
 					abapException);
 
 		} catch (JCoException jcoException) {
 
-			logger.error("jcoException exception", jcoException);
+			// logger.error("jcoException exception", jcoException);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, jcoException.getMessageText(),
 					jcoException);
 
 		} catch (Exception e) {
-			logger.error("exception", e);
+			// logger.error("exception", e);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Exception", e);
 		}
 
