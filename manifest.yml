@@ -1,7 +1,7 @@
 ---
 applications:
  
-- name: cct-ts-connector-test-temp-anton
+- name: cct-ts-connector
   path: target/cct-ts-connector-0.0.1-SNAPSHOT.war
   buildpacks:
     - sap_java_buildpack
