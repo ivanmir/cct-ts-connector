@@ -13,7 +13,7 @@ applications:
     xsuaa_connectivity_instance_name: "CoDeX-xsuaa"
    
   services:
-    - CoDeX-connectivity
-    - CoDeX-destination
-    - CoDeX-xsuaa
+    - cct-connectivity
+    - cct-destination
+    - cct-xsuaa
     
