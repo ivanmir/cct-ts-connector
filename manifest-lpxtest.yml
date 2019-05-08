@@ -1,0 +1,22 @@
+---
+applications:
+ 
+- name: cct-ts-connector
+  path: target/cct-ts-connector-0.0.1-SNAPSHOT.war
+  routes:
+    - route: lpxtest-cct-ts-connector.cfapps.sap.hana.ondemand.com
+  memory: 512M
+  buildpacks:
+    - sap_java_buildpack
+  env:
+    # # Accept any OAuth client of any identity zone
+    JAVA_OPTS: '-Djava.security.egd=file:///dev/./urandom -Xss349k'
+    # Accept any OAuth client of any identity zone
+    SAP_JWT_TRUST_ACL: '[{"clientid":"*","identityzone":"*"}]'
+    xsuaa_connectivity_instance_name: "cct-xsuaa"
+   
+  services:
+    - cct-connectivity
+    - cct-destination
+    - cct-xsuaa
+    
