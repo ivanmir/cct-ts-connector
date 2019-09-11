@@ -13,7 +13,7 @@ applications:
     xsuaa_connectivity_instance_name: "cct-xsuaa"
    
   services:
-    - cct-connectivity
+    - lpx-io-connectivity
     - cct-destination
     - cct-xsuaa
     
