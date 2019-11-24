@@ -72,10 +72,6 @@ via approuter:
 ```
     https://cct-approuter.cfapps.us10.hana.ondemand.com/bapi
 ```
-> [!NOTE]
-> Don't call this app's URL directly as it expects users to be already authenticated.
 
 | WARNING: Don't call this app's URL directly as it expects users to be already authenticated. |
 | --- |
-
-> **WARNING**: Don't call this app's URL directly as it expects users to be already authenticated.
