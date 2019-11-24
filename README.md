@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # BAPI call under Cloud Foundry 
 Calling BAPIs under Cloud Foundry using the following:
 
