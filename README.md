@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Project K.L.A.U.S. 
 TS connector using spring mvc
@@ -59,3 +60,7 @@ via approuter:
 https://cct-approuter.cfapps.sap.hana.ondemand.com/ts/assignments/D021809
 
 
+=======
+# cct-ts-connector
+Run BAPI thru a destination in Cloud Foundry
+>>>>>>> branch 'master' of https://github.com/ivanmir/cct-ts-connector.git
