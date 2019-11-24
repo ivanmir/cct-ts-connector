@@ -18,9 +18,14 @@ public class WebSecurityConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.addFilterAfter(new TenantFilter(), SecurityContextHolderAwareRequestFilter.class).sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.NEVER).and().antMatcher("/**").authorizeRequests()
-				.anyRequest().authenticated();
+		http.addFilterAfter(new TenantFilter(), SecurityContextHolderAwareRequestFilter.class)
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.NEVER)
+				.and()
+				.antMatcher("/**")
+				.authorizeRequests()
+				.anyRequest()
+				.authenticated();
 	}
 
 	@Bean

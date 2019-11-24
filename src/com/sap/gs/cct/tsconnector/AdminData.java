@@ -1,8 +1,9 @@
 package com.sap.gs.cct.tsconnector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,47 +14,43 @@ import com.sap.conn.jco.JCoException;
 import com.sap.conn.jco.JCoFunction;
 import com.sap.conn.jco.JCoParameterList;
 import com.sap.conn.jco.JCoRepository;
-import com.sap.conn.jco.JCoTable;
 
 @RestController
 public class AdminData {
-	// private Logger logger = LoggerFactory.getLogger(AdminData.class);
+	private Logger logger = LoggerFactory.getLogger(AdminData.class);
 
-	@GetMapping(value = "assignments/{userId}", produces = "application/json; charset=UTF-8")
-	public String getAssignments(@PathVariable("userId") String userId) {
+	@GetMapping(path="/assignments", produces = "application/json; charset=UTF-8")
+	public String getAssignments() {
 
 		try {
 
-			// logger.info("started");
+			logger.info("started");
 
-			String current = new java.io.File(".").getCanonicalPath();
-			System.out.println("Current dir:" + current);
-
-			JCoDestination destination = JCoDestinationManager.getDestination("CoDeX_B7W");
+			JCoDestination destination = JCoDestinationManager.getDestination("Kestraa-ECC");
+			logger.info("got destination: " + destination.getDestinationName() );
 
 			JCoRepository repo = destination.getRepository();
+			logger.info("got repo: " + repo.getName() );
+			
 			JCoFunction stfcConnection = repo.getFunction("STFC_CONNECTION");
+			logger.info("got connection: " + stfcConnection.getName() );
 
 			JCoParameterList imports = stfcConnection.getImportParameterList();
 			imports.setValue("REQUTEXT", "SAP Cloud Platform Connectivity runs with JCo");
 			stfcConnection.execute(destination);
 
-			if (userId == null) {
-				throw new IllegalArgumentException("User ID missing");
-			}
+			JCoParameterList exports = stfcConnection.getExportParameterList();
+			//String echotext = exports.getString("ECHOTEXT");
+			//String resptext = exports.getString("RESPTEXT");
 
-			JCoFunction adminGet = repo.getFunction("ZTEST_UID_ADMIN_GET");
+			return exports.toJSON();
 
-			JCoParameterList adminGetParameters = adminGet.getImportParameterList();
-
-			adminGetParameters.setValue("USER_ID", userId);
-
-			adminGet.execute(destination);
-
-			JCoParameterList klausExports = adminGet.getExportParameterList();
-			JCoTable tab = klausExports.getTable("T_ADMIN_DATA");
-
-			return tab.toJSON();
+			//JCoFunction adminGet = repo.getFunction("ZTEST_UID_ADMIN_GET");
+			//JCoParameterList adminGetParameters = adminGet.getImportParameterList();
+			//adminGetParameters.setValue("USER_ID", userId);
+			//adminGet.execute(destination);
+			//JCoParameterList klausExports = adminGet.getExportParameterList();
+			//JCoTable tab = klausExports.getTable("T_ADMIN_DATA");
 
 		} catch (AbapException abapException) {
 
