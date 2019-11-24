@@ -1,16 +1,17 @@
 # BAPI call under Cloud Foundry 
 Calling BAPIs under Cloud Foundry using the following:
 
-- Spring Boot
--- web
--- tomcat
--- looging
--- devtools
-- XS2 security
-- CF Service Instances:
--- XSUAA: jco-xsuaa --> Created with security/xs-security.json
--- Connectivity: connectivity-service
--- Destination: destination-service
+* Spring Boot 
+    * web
+    * tomcat
+    * looging
+    * devtools
+* XS2 security
+* CF Service Instances 
+    * web
+    * XSUAA: jco-xsuaa --> Created with security/xs-security.json
+    * Connectivity: connectivity-service 
+    * Destination: destination-service 
 
 ## Installation
 
@@ -27,6 +28,7 @@ On the space menu select "Services" --> "Service Instances" and click on the des
 - jco.client.sysnr
 - jco.client.lang
 - jco.destination.pool_capacity
+
 Take note of the Destination name you used here, we will have to use the same name under our code.
 
 ### Role tampletes
@@ -36,7 +38,11 @@ Take note of the Destination name you used here, we will have to use the same na
 - Under the cockpit go back to the sub-account and click on the "Trust Configuration" item under the menu "Security". Click on the name of your account's IdP. Enter the e-mail address of the user that will be allowed to use this application and click on the button "Show Assignments" (if this is the first time a user is assigned a Role Collection the system will propmt you to add the user. If this is the case, click "Add User"). Click on the button "Add Role Collection" and select the one you created on the previous step.
 
 ### Adapt the destination name in the code
-- Open the CallBAPI class under /src/com/sap/gs/cct/tsconnector and adapt line 29 to reflect the Destination name you took note from a previous step. 
+- Open the CallBAPI class under /src/com/sap/gs/cct/tsconnector and adapt line 29 to reflect the Destination name you took note from a previous step.
+
+```
+    JCoDestination destination = JCoDestinationManager.getDestination("<destination_name>");
+```
 
 ### Build
 - Create The war file.
@@ -63,6 +69,13 @@ Example call
 
 via approuter:
 
-https://cct-approuter.cfapps.us10.hana.ondemand.com/bapi
+```
+    https://cct-approuter.cfapps.us10.hana.ondemand.com/bapi
+```
+> [!NOTE]
+> Don't call this app's URL directly as it expects users to be already authenticated.
 
-NOTE: Don't call this app's URL directly as it expects users to be authenticated already.
+| WARNING: Don't call this app's URL directly as it expects users to be already authenticated. |
+| --- |
+
+> **WARNING**: Don't call this app's URL directly as it expects users to be already authenticated.
