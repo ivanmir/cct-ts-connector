@@ -12,39 +12,55 @@
 		<version>2.1.3.RELEASE</version>
 	</parent>
 
+	<properties>
+		<cf-logging.version>3.0.5</cf-logging.version>
+	</properties>
+
 	<dependencies>
 
-		<!-- general purpose Spring -->
+		<!-- Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-logging</artifactId>
-			<scope>provided</scope>
+			<artifactId>spring-boot-starter</artifactId>
 			<exclusions>
 				<exclusion>
-					<groupId>ch.qos.logback</groupId>
-					<artifactId>logback-classic</artifactId>
+					<!-- Removing Spring Boot Logging which defaults to logback -->
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<!-- Removing Spring Boot Logging which defaults to logback -->
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+				<!-- Removing Spring Boot Tomcat in detriment to SAP's Tomcat available in SAP Java Buildpack -->
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
-		<!-- Neo SDK contains the JCO libraries needed for BAPI calls -->
+		<!-- NEVER USE Embedded Tomcat with SAP's Java Buildpack -->
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency> -->
+
+		<!-- Neo SDK contains the JCO libraries needed for BAPI calls for compile-time ONLY -->
+		<!-- SAP's Java Buildpack already contains the JCO libraries inside Tomcat libs folder -->
 		<dependency>
 			<groupId>com.sap.cloud</groupId>
 			<artifactId>neo-java-web-api</artifactId>
@@ -57,11 +73,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- authentication -->
+
+		<!-- XS2 Authentication Libs -->
 		<dependency>
 			<groupId>com.sap.xs2.security</groupId>
 			<artifactId>java-container-security</artifactId>
-			<version>0.27.3</version>
+			<version>0.33.18</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -73,11 +90,39 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<!-- Including log4j2 support for compile-time ONLY -->
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-log4j2</artifactId> 
+			</dependency> <dependency> <groupId>commons-logging</groupId> <artifactId>commons-logging</artifactId> 
+			<version>1.2</version> </dependency> -->
+			
+		<!-- Including logback for compile-time ONLY -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Logging -->
+		<!-- Servlet Filter instrumentation must be included for web applications -->
+		<dependency>
+			<groupId>com.sap.hcp.cf.logging</groupId>
+			<artifactId>cf-java-logging-support-logback</artifactId>
+			<version>${cf-logging.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sap.hcp.cf.logging</groupId>
+			<artifactId>cf-java-logging-support-servlet</artifactId>
+			<version>${cf-logging.version}</version>
+		</dependency>
+
 	</dependencies>
+
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>1.8</source>

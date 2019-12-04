@@ -24,16 +24,16 @@ public class CallBAPI {
 
 		try {
 
-			logger.debug("started");
+			logger.debug("----> started");
 
 			JCoDestination destination = JCoDestinationManager.getDestination("Kestraa-ECC");
-			logger.debug("got destination: " + destination.getDestinationName() );
+			logger.debug("----> got destination: {}", destination.getDestinationName() );
 
 			JCoRepository repo = destination.getRepository();
-			logger.debug("got repo: " + repo.getName() );
+			logger.debug("----> got repo: {}", repo.getName() );
 			
 			JCoFunction stfcConnection = repo.getFunction("STFC_CONNECTION");
-			logger.debug("got connection: " + stfcConnection.getName() );
+			logger.debug("----> got connection: {}", stfcConnection.getName() );
 
 			JCoParameterList imports = stfcConnection.getImportParameterList();
 			imports.setValue("REQUTEXT", "SAP Cloud Platform Connectivity runs with JCo");
@@ -41,20 +41,20 @@ public class CallBAPI {
 
 			JCoParameterList exports = stfcConnection.getExportParameterList();
 
-			return exports.toJSON();
+			return exports.toString();
 
 		} catch (AbapException abapException) {
-			logger.error("abap exception", abapException);
+			logger.error("----> abap exception: {}", abapException);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, abapException.getMessageText(),
 					abapException);
 
 		} catch (JCoException jcoException) {
-			logger.error("jcoException exception", jcoException);
+			logger.error("----> jcoException exception: {}", jcoException);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, jcoException.getMessageText(),
 					jcoException);
 
 		} catch (Exception e) {
-			logger.error("generic exception", e);
+			logger.error("----> generic exception: {}", e);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Exception", e);
 		}
 
