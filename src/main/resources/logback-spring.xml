@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration debug="false" scan="false">
+	
+	<!-- include defaults from spring-boot -->
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+	<!-- log JSON strings to STDOUT -->
+	<appender name="STDOUT-JSON" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="com.sap.hcp.cf.logback.encoder.JsonEncoder"/>
+	</appender>
+
+	<!-- local development, log human-readable strings to STDOUT, use default spring-boot pattern-->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date %-5level [%thread] - [%logger] [%mdc] - %msg%n</pattern>
+		</encoder>
+	</appender>
+		​
+	<root level="${LOG_ROOT_LEVEL:-INFO}">
+		<appender-ref ref="STDOUT-JSON" />	
+	</root>
+	
+  	<!-- request metrics are reported using INFO level, so make sure the instrumentation loggers are set to that level -->
+    <logger name="com.sap.hcp.cf" level="INFO" />
+    <logger name="com.sap.gs.cct.tsconnector" level="DEBUG" />
+    	
+</configuration>
