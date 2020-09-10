@@ -26,7 +26,7 @@ public class CallBAPI {
 
 			logger.debug("----> started");
 
-			JCoDestination destination = JCoDestinationManager.getDestination("Kestraa-ECC");
+			JCoDestination destination = JCoDestinationManager.getDestination("SAP_ECC");
 			logger.debug("----> got destination: {}", destination.getDestinationName() );
 
 			JCoRepository repo = destination.getRepository();
